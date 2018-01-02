@@ -67,7 +67,7 @@ public class PigGUI {
 				resetWorld();
 			}
 		});
-		btnReset.setBounds(305, 420, 95, 26);
+		btnReset.setBounds(16, 16, 96, 26);
 		m_frame.getContentPane().add(btnReset);
 
 		JButton btnStart = new JButton("Start");
@@ -83,7 +83,7 @@ public class PigGUI {
 				m_timer.start();
 			}
 		});
-		btnStart.setBounds(200, 420, 95, 26);
+		btnStart.setBounds(138, 16, 96, 26);
 		m_frame.getContentPane().add(btnStart);
 
 		btnStart.addKeyListener(new KeyListener() {
@@ -142,7 +142,7 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
-		pigWorld = new World(600, 450, "/bilder/weltraum.jpg");
+		pigWorld = new World("/bilder/weltraum.jpg");
 		pig = new Schwein(pigWorld);
 		pigWorld.addActor(pig);
 
