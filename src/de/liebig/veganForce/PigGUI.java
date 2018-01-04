@@ -8,14 +8,20 @@ import java.awt.event.*;
 import java.io.IOException;
 
 import javax.swing.*;
-
+/**
+ * Draws the user interface (window, buttons, etc.) and connects it to World.
+ * 
+ * @author mailto://coder.gabriela.grobarcikova@gmail.com
+ *
+ */
 public class PigGUI {
 
 	private JFrame m_frame;
-	private World pigWorld;
+	private World m_pigWorld;
 	private Timer m_timer;
-	private Schwein pig;
-	private JPanel content = new JPanel(null);
+	private Schwein m_pig;
+	private JPanel m_content = new JPanel(null);
+	private VeganForce m_veganForce;
 
 	/**
 	 * Launch the application.
@@ -53,7 +59,7 @@ public class PigGUI {
 			private static final long serialVersionUID = 1L;
 
 			public void paintComponent(Graphics g) {
-				pigWorld.draw(g);
+				m_pigWorld.draw(g);
 
 			}
 
@@ -77,7 +83,7 @@ public class PigGUI {
 				resetWorld();
 				m_timer = new Timer(50, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						pigWorld.update();
+						m_pigWorld.update();
 						m_frame.repaint();
 					}
 				});
@@ -93,9 +99,10 @@ public class PigGUI {
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				if (arg0.getKeyChar() == 'm') {
-					pigWorld.removeActor(pig);
+					m_pigWorld.removeActor(m_pig);
 					System.out.println(0);
 				}
+				m_pigWorld.keyPressed(arg0.getKeyChar());
 			}
 
 			@Override
@@ -143,9 +150,12 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
-		pigWorld = new World("/bilder/weltraum.jpg");
-		pig = new Schwein(pigWorld);
-		pigWorld.addActor(pig);
+		m_pigWorld = new World("/bilder/weltraum.jpg");
+		m_pig = new Schwein(m_pigWorld);
+		m_pigWorld.addActor(m_pig);
+		
+		m_veganForce = new VeganForce(m_pigWorld);
+		m_pigWorld.addActor(m_veganForce);
 
 		if (m_timer != null)
 			m_timer.stop();

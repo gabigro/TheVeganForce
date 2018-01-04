@@ -88,5 +88,13 @@ public class Actor {
 	public void setWorld(World w) {
 		world = w;
 	}
+/**
+ * default action is to to do nothing when button is pressed 
+ * @param p_keyChar a taste ;-) a mussle cat
+ * @return
+ */
+	public boolean keyPressed(char p_keyChar) {
+		return false;
+	}
 
 }

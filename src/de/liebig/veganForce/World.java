@@ -1,4 +1,5 @@
 package de.liebig.veganForce;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,6 +8,12 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * paint our world
+ * 
+ * @author mailto://coder.gabriela.grobarcikova@gmail.com
+ *
+ */
 public class World {
 	private int width;
 	private int height;
@@ -85,6 +92,21 @@ public class World {
 	public void update() {
 		for (int i = 0; i < actors.size(); i++)
 			actors.get(i).act();
+	}
+
+	/**
+	 * Processing keyPressed events comming from Gui and informing the actors about
+	 * it.
+	 * 
+	 * @param p_keyChar character of passed from GUI 
+	 */
+	public void keyPressed(char p_keyChar) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < actors.size(); i++) {
+			Actor myActor = actors.get(i);
+			boolean processed = myActor.keyPressed(p_keyChar);
+
+		}
 	}
 
 }
