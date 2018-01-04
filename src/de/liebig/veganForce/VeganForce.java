@@ -16,6 +16,7 @@ public class VeganForce extends Actor {
 	@Override
 	public boolean keyPressed(char p_keyChar) {
 		// TODO Auto-generated method stub
+		System.out.println("Key code:\""+p_keyChar+"\"");
 		return super.keyPressed(p_keyChar);
 	}
 
@@ -23,9 +24,9 @@ public class VeganForce extends Actor {
 	 * @param w
 	 */
 	public VeganForce(World w) {
-		super(w, new ImageIcon(Schwein.class.getResource("/bilder/TheVeganForceRaumschiff.png")));
-		setX(w.getWidth() / 2);
-		setY(w.getHeight() / 2);
+		super(w, new ImageIcon(Schwein.class.getResource("/bilder/TheMicroVeganForce.png")));
+		setX(getIcon().getIconWidth()/2);
+		setY(getIcon().getIconHeight()/2);
 	}
 
 	/**
