@@ -1,3 +1,4 @@
+package de.liebig.veganForce;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;

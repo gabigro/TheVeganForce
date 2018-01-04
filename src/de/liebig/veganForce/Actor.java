@@ -1,3 +1,4 @@
+package de.liebig.veganForce;
 import javax.swing.ImageIcon;
 
 public class Actor {
