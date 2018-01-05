@@ -1,4 +1,5 @@
 package de.liebig.veganForce;
+
 import javax.swing.ImageIcon;
 
 public class Actor {
@@ -7,7 +8,14 @@ public class Actor {
 	private int y;
 	private ImageIcon icon;
 	private World world;
+	private boolean enabled = true;
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean p_enabled) {
+		 enabled = p_enabled;
+	}
 	public Actor(World w) {
 		rotation = 0;
 		x = 0;
@@ -88,11 +96,14 @@ public class Actor {
 	public void setWorld(World w) {
 		world = w;
 	}
-/**
- * default action is to to do nothing when button is pressed 
- * @param p_keyChar a taste ;-) a mussle cat
- * @return
- */
+
+	/**
+	 * default action is to to do nothing when button is pressed
+	 * 
+	 * @param p_keyChar
+	 *            a taste ;-) a mussle cat
+	 * @return
+	 */
 	public boolean keyPressed(char p_keyChar) {
 		return false;
 	}

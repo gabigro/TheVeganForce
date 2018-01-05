@@ -15,16 +15,25 @@ import java.util.ArrayList;
  *
  */
 public class World {
-	private int width;
-	private int height;
-	private String bgURL;
-	private ArrayList<Actor> actors;
+	private int m_width;
+	private int m_height;
+	private String m_bgURL;
+	private ArrayList<Actor> m_actors;
+	private GameState m_gameState = GameState.BEFOREGAME;
+
+	public GameState getGameState() {
+		return m_gameState;
+	}
+
+	public void setGameState(GameState p_NewState) {
+		m_gameState = p_NewState;
+	}
 
 	/**
 	 * @return the actors
 	 */
 	public ArrayList<Actor> getActors() {
-		return actors;
+		return m_actors;
 	}
 
 	Image backgroundImage;
@@ -32,67 +41,70 @@ public class World {
 	public World(String url) {
 		try {
 			backgroundImage = javax.imageio.ImageIO.read(getClass().getResource(url));
-			width = backgroundImage.getWidth(null);
-			height = backgroundImage.getHeight(null);
-			bgURL = url;
+			m_width = backgroundImage.getWidth(null);
+			m_height = backgroundImage.getHeight(null);
+			m_bgURL = url;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		actors = new ArrayList<Actor>();
+		m_actors = new ArrayList<Actor>();
 	}
 
 	public void draw(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 		g.drawImage(backgroundImage, 0, 0, null);
-		
-		for (int i = 0; i < actors.size(); i++) {
-			Actor a = actors.get(i);
-			AffineTransform at = new AffineTransform();
-			int w = a.getIcon().getIconWidth();
-			int h = a.getIcon().getIconHeight();
-			at.setToRotation(a.getRotation() / 180.0 * 3.1415926, a.getX(), a.getY());
-			at.translate(a.getX() - w / 2, a.getY() - h / 2);
-			g2d.setTransform(at);
-			g2d.drawImage(a.getIcon().getImage(), 0, 0, null);
+
+		for (int i = 0; i < m_actors.size(); i++) {
+			Actor a = m_actors.get(i);
+			if (a.isEnabled() == true) {
+				AffineTransform at = new AffineTransform();
+				int w = a.getIcon().getIconWidth();
+				int h = a.getIcon().getIconHeight();
+				at.setToRotation(a.getRotation() / 180.0 * 3.1415926, a.getX(), a.getY());
+				at.translate(a.getX() - w / 2, a.getY() - h / 2);
+				g2d.setTransform(at);
+				g2d.drawImage(a.getIcon().getImage(), 0, 0, null);
+			}
+
 		}
-		
+
 	}
 
 	public int getWidth() {
-		return width;
+		return m_width;
 	}
 
 	public void setWidth(int z) {
-		width = z;
+		m_width = z;
 
 	}
 
 	public int getHeight() {
-		return height;
+		return m_height;
 	}
 
 	public void setHeight(int z) {
-		height = z;
+		m_height = z;
 
 	}
 
 	public String getBackground() {
-		return bgURL;
+		return m_bgURL;
 	}
 
 	public void setBackground(String url) {
-		bgURL = url;
+		m_bgURL = url;
 
 	}
 
 	public void addActor(Actor a) {
-		actors.add(a);
+		m_actors.add(a);
 	}
 
 	public void removeActor(Actor a) {
-		actors.remove(a);
+		m_actors.remove(a);
 	}
 
 	public void start() {
@@ -100,9 +112,9 @@ public class World {
 	}
 
 	public void update() {
-		for (int i = 0; i < actors.size(); i++)
-			actors.get(i).act();
-		
+		for (int i = 0; i < m_actors.size(); i++)
+			m_actors.get(i).act();
+
 	}
 
 	/**
@@ -114,8 +126,8 @@ public class World {
 	 */
 	public void keyPressed(char p_keyChar) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < actors.size(); i++) {
-			Actor myActor = actors.get(i);
+		for (int i = 0; i < m_actors.size(); i++) {
+			Actor myActor = m_actors.get(i);
 			boolean processed = myActor.keyPressed(p_keyChar);
 
 		}

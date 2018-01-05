@@ -108,7 +108,19 @@ public class VeganForce extends Actor {
 	public VeganForce(World w) {
 		super(w, new ImageIcon(FlyingPiggie.class.getResource("/bilder/TheMicroVeganForce.png")));
 		setX(getIcon().getIconWidth() / 2);
-		setY(getIcon().getIconHeight() / 2);
+		setY(500);
+		setEnabled(false);
+	}
+
+	@Override
+	public void act() {
+		GameState myGameState = getWorld().getGameState();
+		if (myGameState == GameState.WHILEGAME ) {
+			setEnabled(true);
+		}
+		else {
+			setEnabled(false);
+		}
 	}
 
 }
