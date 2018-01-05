@@ -19,6 +19,14 @@ public class World {
 	private int height;
 	private String bgURL;
 	private ArrayList<Actor> actors;
+
+	/**
+	 * @return the actors
+	 */
+	public ArrayList<Actor> getActors() {
+		return actors;
+	}
+
 	Image backgroundImage;
 
 	public World(String url) {
@@ -38,6 +46,7 @@ public class World {
 
 		Graphics2D g2d = (Graphics2D) g.create();
 		g.drawImage(backgroundImage, 0, 0, null);
+		
 		for (int i = 0; i < actors.size(); i++) {
 			Actor a = actors.get(i);
 			AffineTransform at = new AffineTransform();
@@ -48,6 +57,7 @@ public class World {
 			g2d.setTransform(at);
 			g2d.drawImage(a.getIcon().getImage(), 0, 0, null);
 		}
+		
 	}
 
 	public int getWidth() {
@@ -92,13 +102,15 @@ public class World {
 	public void update() {
 		for (int i = 0; i < actors.size(); i++)
 			actors.get(i).act();
+		
 	}
 
 	/**
 	 * Processing keyPressed events comming from Gui and informing the actors about
 	 * it.
 	 * 
-	 * @param p_keyChar character of passed from GUI 
+	 * @param p_keyChar
+	 *            character of passed from GUI
 	 */
 	public void keyPressed(char p_keyChar) {
 		// TODO Auto-generated method stub

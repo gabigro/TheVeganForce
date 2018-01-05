@@ -1,13 +1,13 @@
 package de.liebig.veganForce;
 import javax.swing.ImageIcon;
 
-public class Schwein extends Actor {
+public class FlyingPiggie extends Actor {
 	private static int SCHRITTE = 100;
 	private static int SCHRITTWEITE = 16;
 	private int s = SCHRITTE;
 
-	public Schwein(World w) {
-		super(w, new ImageIcon(Schwein.class.getResource("/bilder/piggie.png")));
+	public FlyingPiggie(World w) {
+		super(w, new ImageIcon(FlyingPiggie.class.getResource("/bilder/piggie.png")));
 		setX(w.getWidth() / 2);
 		setY(w.getHeight() / 2);
 	}
