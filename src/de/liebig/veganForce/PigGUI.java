@@ -32,6 +32,7 @@ public class PigGUI {
 	private Piggie m_Piggie;
 	private JTextField m_TimerLabel = new JTextField("Game reaady!");
 	private int m_Gametime;
+	private GameOver m_gameOver;
 
 	/**
 	 * Launch the application.
@@ -167,11 +168,11 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
-		m_Gametime = 10000;
+		m_Gametime = 100;
 		m_pigWorld = new World("/bilder/weltraum.jpg");
-		
+
 		m_pigWorld.setGameState(GameState.BEFOREGAME);
-		
+
 		m_planet = new Planet(m_pigWorld);
 		m_pigWorld.addActor(m_planet);
 
@@ -185,6 +186,11 @@ public class PigGUI {
 		m_pig = new FlyingPiggie(m_pigWorld);
 		m_pigWorld.addActor(m_pig);
 
+		m_gameOver = new GameOver(m_pigWorld);
+		m_pigWorld.addActor(m_gameOver);
+
+		m_Gametime = 200;
+
 		if (m_timer != null)
 			m_timer.stop();
 		m_frame.repaint();
@@ -195,12 +201,13 @@ public class PigGUI {
 	 * checking the status and giving the timer of the game
 	 */
 	private void checkGameOver() {
-
-		if (m_Gametime > 0) {
-			m_Gametime--;
-			m_TimerLabel.setText(Integer.toString(m_Gametime));
-		} else {
-			m_pigWorld.setGameState(GameState.GAMEOVER);
+		if (m_pigWorld.getGameState() == GameState.WHILEGAME) {
+			if (m_Gametime > 0) {
+				m_Gametime--;
+				m_TimerLabel.setText(Integer.toString(m_Gametime));
+			} else {
+				m_pigWorld.setGameState(GameState.GAMEOVER);
+			}
 		}
 	}
 }
