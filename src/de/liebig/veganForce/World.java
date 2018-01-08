@@ -20,6 +20,40 @@ public class World {
 	private String m_bgURL;
 	private ArrayList<Actor> m_actors;
 	private GameState m_gameState = GameState.BEFOREGAME;
+	private int m_viewWidth = 0;
+	private int m_viewHeight = 0;
+	private int m_xOfset = 0;
+	private int m_yOfset = 0;
+
+	/**
+	 * @return the xOfset
+	 */
+	public int getxOfset() {
+		return m_xOfset;
+	}
+
+	/**
+	 * @param pXOfset
+	 *            the xOfset to set
+	 */
+	public void setxOfset(int pXOfset) {
+		m_xOfset = pXOfset;
+	}
+
+	/**
+	 * @return the yOfset
+	 */
+	public int getyOfset() {
+		return m_yOfset;
+	}
+
+	/**
+	 * @param pYOfset
+	 *            the yOfset to set
+	 */
+	public void setyOfset(int pYOfset) {
+		m_yOfset = pYOfset;
+	}
 
 	public GameState getGameState() {
 		return m_gameState;
@@ -54,7 +88,7 @@ public class World {
 	public void draw(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g.create();
-		g.drawImage(backgroundImage, 0, 0, null);
+		g.drawImage(backgroundImage, -getxOfset(), -getyOfset(), null);
 
 		for (int i = 0; i < m_actors.size(); i++) {
 			Actor a = m_actors.get(i);
@@ -62,14 +96,35 @@ public class World {
 				AffineTransform at = new AffineTransform();
 				int w = a.getIcon().getIconWidth();
 				int h = a.getIcon().getIconHeight();
-				at.setToRotation(a.getRotation() / 180.0 * 3.1415926, a.getX(), a.getY());
-				at.translate(a.getX() - w / 2, a.getY() - h / 2);
+				at.setToRotation(a.getRotation() / 180.0 * 3.1415926, -getxOfset()+a.getX(),-getyOfset()+ a.getY());
+				at.translate(-getxOfset()+a.getX() - w / 2, -getyOfset()+a.getY() - h / 2);
 				g2d.setTransform(at);
 				g2d.drawImage(a.getIcon().getImage(), 0, 0, null);
 			}
 
 		}
 
+	}
+
+	/**
+	 * 
+	 */
+	public boolean isMissionAcc() {
+		// First I get my actors
+		ArrayList<Actor> myWorldActors = this.getActors();
+		for (int i = 0; i < myWorldActors.size(); i++) {
+			Actor aWorldActor = myWorldActors.get(i);
+			// Then I test if they are piggies
+			if (aWorldActor instanceof Piggie) {
+				Piggie aWorldPiggie = (Piggie) aWorldActor;
+				if (aWorldPiggie.isCaught() != true) {
+					return false;
+				}
+
+			}
+
+		}
+		return true;
 	}
 
 	public int getWidth() {
@@ -131,6 +186,25 @@ public class World {
 			boolean processed = myActor.keyPressed(p_keyChar);
 
 		}
+	}
+
+	public void setViewSize(int pWidth, int pHeight) {
+		m_viewHeight = pHeight;
+		m_viewWidth = pWidth;
+	}
+
+	/**
+	 * @return the viewWidth
+	 */
+	public int getViewWidth() {
+		return m_viewWidth;
+	}
+
+	/**
+	 * @return the viewHeight
+	 */
+	public int getViewHeight() {
+		return m_viewHeight;
 	}
 
 }

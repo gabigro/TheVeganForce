@@ -42,9 +42,49 @@ public class VeganForce extends Actor {
 			setY(mynewY);
 			setRotation(90);
 		}
+		viewshift();
 		piggieEinsammeln();
 		moveCaughPiggies();
 		return true;
+	}
+
+	private void viewshift() {
+
+		int xViewStep = STEP + getIcon().getIconWidth();
+
+		int myMaxX = getWorld().getxOfset() + getWorld().getViewWidth() - xViewStep;
+		if (getX() >= myMaxX && (getX() < getWorld().getWidth() - xViewStep)) {
+			getWorld().setxOfset(getWorld().getxOfset() + STEP);
+		}
+		if (getX() >= getWorld().getWidth() - xViewStep) {
+			setX(getWorld().getWidth() - xViewStep);
+		}
+		int myMinX = getWorld().getxOfset() + xViewStep;
+		if (getX() <= myMinX && getX() > xViewStep) {
+			getWorld().setxOfset(getWorld().getxOfset() - STEP);
+		}
+		if (getX() <= xViewStep) {
+			setX(xViewStep);
+		}
+
+		// YYYY
+
+		int yViewStep = STEP + getIcon().getIconHeight();
+
+		int myMaxY = getWorld().getyOfset() + getWorld().getViewHeight() - yViewStep;
+		if (getY() >= myMaxY && (getY() < getWorld().getHeight() - yViewStep)) {
+			getWorld().setyOfset(getWorld().getyOfset() + STEP);
+		}
+		if (getY() >= getWorld().getHeight() - yViewStep) {
+			setY(getWorld().getHeight() - yViewStep);
+		}
+		int myMinY = getWorld().getyOfset() + yViewStep;
+		if (getY() <= myMinY && getY() > yViewStep) {
+			getWorld().setyOfset(getWorld().getyOfset() - STEP);
+		}
+		if (getY() <= yViewStep) {
+			setY(yViewStep);
+		}
 	}
 
 	private void moveCaughPiggies() {
@@ -107,7 +147,7 @@ public class VeganForce extends Actor {
 	 */
 	public VeganForce(World w) {
 		super(w, new ImageIcon(FlyingPiggie.class.getResource("/bilder/TheMicroVeganForce.png")));
-		setX(getIcon().getIconWidth() / 2);
+		setX(200);
 		setY(500);
 		setEnabled(false);
 	}
@@ -115,10 +155,9 @@ public class VeganForce extends Actor {
 	@Override
 	public void act() {
 		GameState myGameState = getWorld().getGameState();
-		if (myGameState == GameState.WHILEGAME ) {
+		if (myGameState == GameState.WHILEGAME) {
 			setEnabled(true);
-		}
-		else {
+		} else {
 			setEnabled(false);
 		}
 	}

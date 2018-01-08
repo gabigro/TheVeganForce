@@ -1,28 +1,23 @@
 package de.liebig.veganForce;
 
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
-public class GameOver extends Actor {
+public class MissionAcc extends Actor {
 
-	public GameOver(World w) {
-
-		super(w, new ImageIcon(Planet.class.getResource("/bilder/GameOver.jpeg")));
+	public MissionAcc(World pW) {
+		super(pW, new ImageIcon(Planet.class.getResource("/bilder/MissionAcc.jpeg")));
 		setX(1000);
 		setY(500);
 		setEnabled(false);
 	}
 
-	
 	@Override
 	public void act() {
 		GameState myGameState = getWorld().getGameState();
-		if (myGameState == GameState.GAMEOVER) {
+		if (myGameState == GameState.MISSIONACC) {
 			setEnabled(true);
 		} else {
 			setEnabled(false);
 		}
 	}
-
 }

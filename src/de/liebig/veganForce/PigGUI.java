@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -22,6 +23,8 @@ import javax.swing.*;
  */
 public class PigGUI {
 
+	private static final int MAX_PIG = 4;
+	private static final int GAME_TIME = 20000000;
 	private JFrame m_frame;
 	private World m_pigWorld;
 	private Timer m_timer;
@@ -29,11 +32,12 @@ public class PigGUI {
 	private JPanel m_content = new JPanel(null);
 	private VeganForce m_veganForce;
 	private Planet m_planet;
-	private Piggie m_Piggie;
+	private ArrayList<Piggie> m_Piggies = new ArrayList<Piggie>();
 	private JTextField m_TimerLabel = new JTextField("Game reaady!");
 	private int m_Gametime;
 	private GameOver m_gameOver;
 	private BeforeGame m_beforeGame;
+	private MissionAcc m_MissionAcc;
 
 	/**
 	 * Launch the application.
@@ -75,6 +79,31 @@ public class PigGUI {
 
 			}
 
+		});
+
+		m_frame.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				setViewSize();
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent pArg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent pArg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentShown(ComponentEvent pArg0) {
+				// TODO Auto-generated method stub
+
+			}
 		});
 
 		m_frame.getContentPane().setPreferredSize(new Dimension(600, 450));
@@ -171,7 +200,6 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
-		m_Gametime = 100;
 		m_pigWorld = new World("/bilder/weltraum.jpg");
 
 		m_pigWorld.setGameState(GameState.BEFOREGAME);
@@ -183,26 +211,34 @@ public class PigGUI {
 		m_pigWorld.addActor(m_veganForce);
 
 		// Add piggie no 1
-		m_Piggie = new Piggie(1, m_pigWorld);
-		m_pigWorld.addActor(m_Piggie);
+		for (int i = 0; i < MAX_PIG; i++) {
+			Piggie myPiggie = new Piggie(i + 1, m_pigWorld, m_planet);
+			m_pigWorld.addActor(myPiggie);
+			m_Piggies.add(myPiggie);
+		}
 
 		m_pig = new FlyingPiggie(m_pigWorld);
 		m_pigWorld.addActor(m_pig);
 
 		m_gameOver = new GameOver(m_pigWorld);
 		m_pigWorld.addActor(m_gameOver);
-		
+
+		m_MissionAcc = new MissionAcc(m_pigWorld);
+		m_pigWorld.addActor(m_MissionAcc);
+
 		m_beforeGame = new BeforeGame(m_pigWorld);
 		m_pigWorld.addActor(m_beforeGame);
 
-		m_Gametime = 200;
+		m_Gametime = GAME_TIME;
+
+		setViewSize();
 
 		if (m_timer != null)
 			m_timer.stop();
 		m_frame.repaint();
 		System.out.println(m_frame.getFocusOwner());
 	}
- 
+
 	/**
 	 * checking the status and giving the timer of the game
 	 */
@@ -212,8 +248,18 @@ public class PigGUI {
 				m_Gametime--;
 				m_TimerLabel.setText(Integer.toString(m_Gametime));
 			} else {
-				m_pigWorld.setGameState(GameState.GAMEOVER);
+				if (m_pigWorld.isMissionAcc() == false) {
+					m_pigWorld.setGameState(GameState.GAMEOVER);
+				}
+				if (m_pigWorld.isMissionAcc() == true) {
+					m_pigWorld.setGameState(GameState.MISSIONACC);
+				}
 			}
 		}
 	}
+	
+	private void setViewSize() {
+		m_pigWorld.setViewSize(m_frame.getWidth(),m_frame.getHeight());
+	}
+
 }
