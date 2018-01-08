@@ -86,7 +86,6 @@ public class VeganForce extends Actor {
 			setY(yViewStep);
 		}
 	}
-
 	private void moveCaughPiggies() {
 		int myStep = 0;
 		for (Piggie myCaughtPiggie : m_CaughtPiggies) {

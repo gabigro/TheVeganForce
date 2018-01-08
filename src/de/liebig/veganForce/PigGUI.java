@@ -24,15 +24,16 @@ import javax.swing.*;
 public class PigGUI {
 
 	private static final int MAX_PIG = 4;
-	private static final int GAME_TIME = 20000000;
+	private static final int GAME_TIME = 200;
+	private int m_level=1;
 	private JFrame m_frame;
 	private World m_pigWorld;
 	private Timer m_timer;
 	private FlyingPiggie m_pig;
 	private JPanel m_content = new JPanel(null);
 	private VeganForce m_veganForce;
-	private Planet m_planet;
-	private ArrayList<Piggie> m_Piggies = new ArrayList<Piggie>();
+	private ArrayList<Planet> m_planets;
+	private ArrayList<Piggie> m_Piggies;
 	private JTextField m_TimerLabel = new JTextField("Game reaady!");
 	private int m_Gametime;
 	private GameOver m_gameOver;
@@ -200,23 +201,36 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
+		
+		m_planets = new ArrayList<Planet>();
+		m_Piggies = new ArrayList<Piggie>();
+		
 		m_pigWorld = new World("/bilder/weltraum.jpg");
 
 		m_pigWorld.setGameState(GameState.BEFOREGAME);
 
-		m_planet = new Planet(m_pigWorld);
-		m_pigWorld.addActor(m_planet);
+		
+		for (int i = 0; i < m_level; i++) {
+			Planet myPlanet = new Planet(m_pigWorld);
+			m_pigWorld.addActor(myPlanet);
+			m_planets.add(myPlanet);
+		}
 
 		m_veganForce = new VeganForce(m_pigWorld);
 		m_pigWorld.addActor(m_veganForce);
 
-		// Add piggie no 1
-		for (int i = 0; i < MAX_PIG; i++) {
-			Piggie myPiggie = new Piggie(i + 1, m_pigWorld, m_planet);
-			m_pigWorld.addActor(myPiggie);
-			m_Piggies.add(myPiggie);
+		// Add piggies 
+		int planetcounter=1;
+		
+		for(Planet myPlanet:m_planets) {
+			for (int i = 0; i < MAX_PIG; i++) {
+				Piggie myPiggie = new Piggie(planetcounter, m_pigWorld,myPlanet);
+				m_pigWorld.addActor(myPiggie);
+				m_Piggies.add(myPiggie);
+				planetcounter++;
+			}
 		}
-
+		
 		m_pig = new FlyingPiggie(m_pigWorld);
 		m_pigWorld.addActor(m_pig);
 
@@ -250,16 +264,18 @@ public class PigGUI {
 			} else {
 				if (m_pigWorld.isMissionAcc() == false) {
 					m_pigWorld.setGameState(GameState.GAMEOVER);
+					m_level=1;
 				}
 				if (m_pigWorld.isMissionAcc() == true) {
 					m_pigWorld.setGameState(GameState.MISSIONACC);
+					m_level++;
 				}
 			}
 		}
 	}
-	
+
 	private void setViewSize() {
-		m_pigWorld.setViewSize(m_frame.getWidth(),m_frame.getHeight());
+		m_pigWorld.setViewSize(m_frame.getWidth(), m_frame.getHeight());
 	}
 
 }

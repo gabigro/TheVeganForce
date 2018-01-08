@@ -119,6 +119,7 @@ public class World {
 				Piggie aWorldPiggie = (Piggie) aWorldActor;
 				if (aWorldPiggie.isCaught() != true) {
 					return false;
+					
 				}
 
 			}
