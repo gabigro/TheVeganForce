@@ -88,6 +88,7 @@ public class PigGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				resetWorld();
 				m_pigWorld.setGameState(GameState.BEFOREGAME);
+				m_timer.restart();
 			}
 		});
 		btnReset.setBounds(16, 16, 96, 26);
