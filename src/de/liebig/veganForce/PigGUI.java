@@ -33,6 +33,7 @@ public class PigGUI {
 	private JTextField m_TimerLabel = new JTextField("Game reaady!");
 	private int m_Gametime;
 	private GameOver m_gameOver;
+	private BeforeGame m_beforeGame;
 
 	/**
 	 * Launch the application.
@@ -86,6 +87,7 @@ public class PigGUI {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resetWorld();
+				m_pigWorld.setGameState(GameState.BEFOREGAME);
 			}
 		});
 		btnReset.setBounds(16, 16, 96, 26);
@@ -188,6 +190,9 @@ public class PigGUI {
 
 		m_gameOver = new GameOver(m_pigWorld);
 		m_pigWorld.addActor(m_gameOver);
+		
+		m_beforeGame = new BeforeGame(m_pigWorld);
+		m_pigWorld.addActor(m_beforeGame);
 
 		m_Gametime = 200;
 
@@ -196,7 +201,7 @@ public class PigGUI {
 		m_frame.repaint();
 		System.out.println(m_frame.getFocusOwner());
 	}
-
+ 
 	/**
 	 * checking the status and giving the timer of the game
 	 */
