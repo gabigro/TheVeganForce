@@ -24,8 +24,8 @@ import javax.swing.*;
 public class PigGUI {
 
 	private static final int MAX_PIG = 4;
-	private static final int GAME_TIME = 200;
-	private int m_level=1;
+	private static final int GAME_TIME = 1000;
+	private int m_level = 1;
 	private JFrame m_frame;
 	private World m_pigWorld;
 	private Timer m_timer;
@@ -201,15 +201,14 @@ public class PigGUI {
 	}
 
 	public void resetWorld() {
-		
+
 		m_planets = new ArrayList<Planet>();
 		m_Piggies = new ArrayList<Piggie>();
-		
+
 		m_pigWorld = new World("/bilder/weltraum.jpg");
 
 		m_pigWorld.setGameState(GameState.BEFOREGAME);
 
-		
 		for (int i = 0; i < m_level; i++) {
 			Planet myPlanet = new Planet(m_pigWorld);
 			m_pigWorld.addActor(myPlanet);
@@ -219,18 +218,18 @@ public class PigGUI {
 		m_veganForce = new VeganForce(m_pigWorld);
 		m_pigWorld.addActor(m_veganForce);
 
-		// Add piggies 
-		int planetcounter=1;
-		
-		for(Planet myPlanet:m_planets) {
+		// Add piggies
+		int planetcounter = 1;
+
+		for (Planet myPlanet : m_planets) {
 			for (int i = 0; i < MAX_PIG; i++) {
-				Piggie myPiggie = new Piggie(planetcounter, m_pigWorld,myPlanet);
+				Piggie myPiggie = new Piggie(planetcounter, m_pigWorld, myPlanet);
 				m_pigWorld.addActor(myPiggie);
 				m_Piggies.add(myPiggie);
 				planetcounter++;
 			}
 		}
-		
+
 		m_pig = new FlyingPiggie(m_pigWorld);
 		m_pigWorld.addActor(m_pig);
 
@@ -243,7 +242,7 @@ public class PigGUI {
 		m_beforeGame = new BeforeGame(m_pigWorld);
 		m_pigWorld.addActor(m_beforeGame);
 
-		m_Gametime = GAME_TIME;
+		m_Gametime = (2 * m_level * GAME_TIME) / 3;
 
 		setViewSize();
 
@@ -257,18 +256,22 @@ public class PigGUI {
 	 * checking the status and giving the timer of the game
 	 */
 	private void checkGameOver() {
+
 		if (m_pigWorld.getGameState() == GameState.WHILEGAME) {
 			if (m_Gametime > 0) {
 				m_Gametime--;
-				m_TimerLabel.setText(Integer.toString(m_Gametime));
-			} else {
-				if (m_pigWorld.isMissionAcc() == false) {
-					m_pigWorld.setGameState(GameState.GAMEOVER);
-					m_level=1;
-				}
+				m_TimerLabel.setText(m_Gametime + " Level: " + m_level);
 				if (m_pigWorld.isMissionAcc() == true) {
 					m_pigWorld.setGameState(GameState.MISSIONACC);
 					m_level++;
+					m_TimerLabel.setText("press START for Level: " + m_level);
+
+				}
+			} else {
+				if (m_pigWorld.isMissionAcc() == false) {
+					m_pigWorld.setGameState(GameState.GAMEOVER);
+					m_TimerLabel.setText("Failed at Level: " + m_level);
+					m_level = 1;
 				}
 			}
 		}

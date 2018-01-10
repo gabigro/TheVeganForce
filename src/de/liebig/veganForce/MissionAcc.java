@@ -16,6 +16,8 @@ public class MissionAcc extends Actor {
 		GameState myGameState = getWorld().getGameState();
 		if (myGameState == GameState.MISSIONACC) {
 			setEnabled(true);
+			getWorld().setxOfset(0);
+			getWorld().setyOfset(0);
 		} else {
 			setEnabled(false);
 		}

@@ -20,6 +20,8 @@ public class GameOver extends Actor {
 		GameState myGameState = getWorld().getGameState();
 		if (myGameState == GameState.GAMEOVER) {
 			setEnabled(true);
+			getWorld().setxOfset(0);
+			getWorld().setyOfset(0);
 		} else {
 			setEnabled(false);
 		}
