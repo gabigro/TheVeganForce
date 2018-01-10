@@ -86,6 +86,7 @@ public class VeganForce extends Actor {
 			setY(yViewStep);
 		}
 	}
+
 	private void moveCaughPiggies() {
 		int myStep = 0;
 		for (Piggie myCaughtPiggie : m_CaughtPiggies) {
@@ -116,13 +117,19 @@ public class VeganForce extends Actor {
 					}
 				}
 			}
+			if (aWorldActor instanceof Guards) {
+				if (isInShip(aWorldActor)) {
+					getWorld().setGameState(GameState.GAMEOVER);
+					break;
+				}
+			}
 		}
 	}
 
-	private boolean isInShip(Piggie pWorldPiggie) {
+	private boolean isInShip(Actor pWorldSpecifiedActor) {
 		// TODO Auto-generated method stub
-		int xDistance = this.getX() - pWorldPiggie.getX();
-		int yDistance = this.getY() - pWorldPiggie.getY();
+		int xDistance = this.getX() - pWorldSpecifiedActor.getX();
+		int yDistance = this.getY() - pWorldSpecifiedActor.getY();
 
 		int maxDistance = 50;
 		int maxMinusDistance = -50;

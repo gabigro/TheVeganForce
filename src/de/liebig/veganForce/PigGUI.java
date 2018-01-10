@@ -34,6 +34,7 @@ public class PigGUI {
 	private VeganForce m_veganForce;
 	private ArrayList<Planet> m_planets;
 	private ArrayList<Piggie> m_Piggies;
+	private ArrayList<Guards> m_guards;
 	private JTextField m_TimerLabel = new JTextField("Game reaady!");
 	private int m_Gametime;
 	private GameOver m_gameOver;
@@ -204,6 +205,7 @@ public class PigGUI {
 
 		m_planets = new ArrayList<Planet>();
 		m_Piggies = new ArrayList<Piggie>();
+		m_guards = new ArrayList<Guards>();
 
 		m_pigWorld = new World("/bilder/weltraum.jpg");
 
@@ -213,6 +215,14 @@ public class PigGUI {
 			Planet myPlanet = new Planet(m_pigWorld);
 			m_pigWorld.addActor(myPlanet);
 			m_planets.add(myPlanet);
+		}
+
+		for (Planet myPlanet : m_planets) {
+			for (int i = 0; i < 3; i++) {
+				Guards myGuard = new Guards(m_pigWorld, myPlanet);
+				m_pigWorld.addActor(myGuard);
+				m_guards.add(myGuard);
+			}
 		}
 
 		m_veganForce = new VeganForce(m_pigWorld);
