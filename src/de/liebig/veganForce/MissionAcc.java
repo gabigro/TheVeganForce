@@ -10,7 +10,6 @@ public class MissionAcc extends Actor {
 		setY(500);
 		setEnabled(false);
 	}
-
 	@Override
 	public void act() {
 		GameState myGameState = getWorld().getGameState();

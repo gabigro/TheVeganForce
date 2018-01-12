@@ -8,7 +8,7 @@ public class GameOver extends Actor {
 
 	public GameOver(World w) {
 
-		super(w, new ImageIcon(Planet.class.getResource("/bilder/GameOver.jpeg")));
+		super(w, new ImageIcon(Planet.class.getResource("/bilder/Gameover.jpg")));
 		setX(1000);
 		setY(500);
 		setEnabled(false);
