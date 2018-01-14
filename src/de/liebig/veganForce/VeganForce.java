@@ -1,5 +1,6 @@
 package de.liebig.veganForce;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -120,8 +121,7 @@ public class VeganForce extends Actor {
 			if (aWorldActor instanceof Guards) {
 				if (isInShip(aWorldActor)) {
 					getWorld().setGameState(GameState.GAMEOVER);
-					break;
-				}
+					break;				}
 			}
 		}
 	}

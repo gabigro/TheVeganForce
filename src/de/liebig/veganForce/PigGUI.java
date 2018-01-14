@@ -25,7 +25,6 @@ public class PigGUI {
 
 	private static final int MAX_PIG = 4;
 	private static final int GAME_TIME = 1000;
-	private int m_level = 1;
 	private JFrame m_frame;
 	private World m_pigWorld;
 	private Timer m_timer;
@@ -40,6 +39,7 @@ public class PigGUI {
 	private GameOver m_gameOver;
 	private BeforeGame m_beforeGame;
 	private MissionAcc m_MissionAcc;
+	private int m_level = 1;
 
 	/**
 	 * Launch the application.
@@ -117,9 +117,9 @@ public class PigGUI {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				m_level = 1;
+				setLevel(1);
 				m_timer.restart();
-				m_Gametime = (2 * m_level * GAME_TIME) / 3;
+				m_Gametime = (2 * getLevel() * GAME_TIME) / 3;
 				resetWorld();
 				m_pigWorld.setGameState(GameState.BEFOREGAME);
 			}
@@ -213,14 +213,14 @@ public class PigGUI {
 
 		m_pigWorld.setGameState(GameState.BEFOREGAME);
 
-		for (int i = 0; i < m_level; i++) {
+		for (int i = 0; i < getLevel(); i++) {
 			Planet myPlanet = new Planet(m_pigWorld);
 			m_pigWorld.addActor(myPlanet);
 			m_planets.add(myPlanet);
 		}
 
 		for (Planet myPlanet : m_planets) {
-			for (int i = 0; i < m_level; i++) {
+			for (int i = 0; i < getLevel(); i++) {
 				Guards myGuard = new Guards(m_pigWorld, myPlanet);
 				m_pigWorld.addActor(myGuard);
 				m_guards.add(myGuard);
@@ -254,7 +254,7 @@ public class PigGUI {
 		m_beforeGame = new BeforeGame(m_pigWorld);
 		m_pigWorld.addActor(m_beforeGame);
 
-		m_Gametime = (2 * m_level * GAME_TIME) / 3;
+		m_Gametime = (2 * getLevel() * GAME_TIME) / 3;
 
 		setViewSize();
 
@@ -265,31 +265,41 @@ public class PigGUI {
 	}
 
 	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return m_level;
+	}
+
+	/**
+	 * @param pLevel
+	 *            the level to set
+	 */
+	public void setLevel(int pLevel) {
+		m_level = pLevel;
+	}
+
+	/**
 	 * checking the status and giving the timer of the game
 	 */
 	private void checkGameOver() {
-
 		if (m_pigWorld.getGameState() == GameState.WHILEGAME) {
 			if (m_Gametime > 0) {
 				m_veganForce.piggieEinsammeln();
 				m_Gametime--;
-				m_TimerLabel.setText(m_Gametime + " Level: " + m_level);
+				m_TimerLabel.setText(m_Gametime + " Level: " + getLevel());
 				if (m_pigWorld.isMissionAcc() == true) {
 					m_pigWorld.setGameState(GameState.MISSIONACC);
-					m_level++;
-					m_TimerLabel.setText("press START for Level: " + m_level);
+					setLevel(getLevel() + 1);
+					m_TimerLabel.setText("press START for Level: " + getLevel());
 				}
-				if (m_pigWorld.getGameState() == GameState.GAMEOVER) {
-					m_TimerLabel.setText("Failed at Level: " + m_level);
-				}
-
 			} else {
-				if (m_pigWorld.isMissionAcc() == false) {
-					m_pigWorld.setGameState(GameState.GAMEOVER);
-					m_TimerLabel.setText("Failed at Level: " + m_level);
-
-				}
+				m_pigWorld.setGameState(GameState.GAMEOVER);
 			}
+		}
+		if (m_pigWorld.getGameState() == GameState.GAMEOVER) {
+			m_TimerLabel.setText("Failed!!!");
+			setLevel(1);
 		}
 	}
 

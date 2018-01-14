@@ -23,8 +23,8 @@ public class World {
 	private int m_viewWidth = 0;
 	private int m_viewHeight = 0;
 	private int m_xOfset = 0;
-	private int m_yOfset = 0;
-
+	private int m_yOfset = 0;	
+	
 	/**
 	 * @return the xOfset
 	 */
